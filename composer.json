@@ -1,6 +1,6 @@
 {
   "name": "sergiocarlosmorales/chill-genetic-algorithm",
-  "description": "A PHP Genetic Algorithms framework",
+  "description": "A PHP framework for genetic algorithms",
   "require": {
     "php": ">=5.5.0"
   },
