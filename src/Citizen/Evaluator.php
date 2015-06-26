@@ -1,7 +1,8 @@
 <?php
-namespace ChillGeneticAlgorithm;
+namespace ChillGeneticAlgorithm\Citizen;
+use ChillGeneticAlgorithm\Citizen;
 
-abstract class Citizen_Evaluator
+abstract class Evaluator
 {
     /**
      * Evaluate how fit an individual is.

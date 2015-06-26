@@ -1,18 +1,7 @@
 <?php
-// Need to set up composer.
-// Quick test.
-require "Citizen/Evaluator.php";
-require "Population/ScoreManager.php";
-require "Citizen.php";
-require "Population.php";
-require "SolverEngine.php";
-use ChillGeneticAlgorithm\Citizen;
-use ChillGeneticAlgorithm\Citizen_Evaluator;
-use ChillGeneticAlgorithm\Population;
-use ChillGeneticAlgorithm\Population_ScoreManager;
-use ChillGeneticAlgorithm\SolverEngine;
+require 'vendor/autoload.php';
 
-class ThreeDigits extends Citizen
+class ThreeDigits extends \ChillGeneticAlgorithm\Citizen
 {
     public $digit1;
     public $digit2;
@@ -26,7 +15,7 @@ class ThreeDigits extends Citizen
         $this->$propertyToMutate += $randomNumberToAdd;
     }
 
-    public function mate(Citizen $partner)
+    public function mate(\ChillGeneticAlgorithm\Citizen $partner)
     {
         $children = new ThreeDigits();
         $children->digit1 = $this->digit1;
@@ -38,9 +27,9 @@ class ThreeDigits extends Citizen
     }
 }
 
-class DigitsAddUpTo100 extends Citizen_Evaluator
+class DigitsAddUpTo100 extends \ChillGeneticAlgorithm\Citizen\Evaluator
 {
-    public function getScore(Citizen $citizen)
+    public function getScore(\ChillGeneticAlgorithm\Citizen $citizen)
     {
         $sum = abs($citizen->digit1 + $citizen->digit2 + $citizen->digit3);
         if ($sum > 100) {
@@ -60,7 +49,7 @@ for ($i=0; $i<1000; $i++) {
     $citizens[] = $citizen;
 }
 
-$population = new Population($citizens);
-$scoreManager = new Population_ScoreManager($population, 'DigitsAddUpTo100');
-$solverEngine = new SolverEngine($population, $scoreManager, 0, 500, 35, 1000);
+$population = new \ChillGeneticAlgorithm\Population($citizens);
+$scoreManager = new \ChillGeneticAlgorithm\Population\ScoreManager($population, 'DigitsAddUpTo100');
+$solverEngine = new \ChillGeneticAlgorithm\SolverEngine($population, $scoreManager, 0, 500, 35, 1000);
 print_r($solverEngine->solve());

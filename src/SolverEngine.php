@@ -1,5 +1,8 @@
 <?php
 namespace ChillGeneticAlgorithm;
+use ChillGeneticAlgorithm\Population;
+use ChillGeneticAlgorithm\Population\ScoreManager;
+use ChillGeneticAlgorithm\Citizen;
 
 class SolverEngine
 {
@@ -35,7 +38,7 @@ class SolverEngine
 
     /**
      * @param Population $population
-     * @param Population_ScoreManager $scoreManager
+     * @param ScoreManager $scoreManager
      * @param float $acceptableErrorRate [0-100]
      * @param int $citizensToReplacePerGeneration
      * @param float $mutationProbability [0-100]
@@ -43,7 +46,7 @@ class SolverEngine
      */
     public function __construct(
         Population $population,
-        Population_ScoreManager $scoreManager,
+        ScoreManager $scoreManager,
         $acceptableErrorRate,
         $citizensToReplacePerGeneration,
         $mutationProbability,

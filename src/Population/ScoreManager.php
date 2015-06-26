@@ -1,7 +1,8 @@
 <?php
-namespace ChillGeneticAlgorithm;
+namespace ChillGeneticAlgorithm\Population;
+use ChillGeneticAlgorithm\Population;
 
-class Population_ScoreManager
+class ScoreManager
 {
     /**
      * @var Population
