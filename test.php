@@ -40,7 +40,7 @@ class DigitsAddUpTo100 extends \ChillGeneticAlgorithm\Citizen\Evaluator
 }
 
 $citizens = [];
-//Lets create our initial population.
+//Lets create our initial population
 for ($i=0; $i<1000; $i++) {
     $citizen = new ThreeDigits();
     $citizen->digit1 = rand(-500000, 500000);
