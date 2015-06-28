@@ -143,7 +143,6 @@ class SolverEngine
         $iterationCount = 0;
         while (true) {
             $scoreManager->evaluate();
-            print_r($iterationCount . ":" . $scoreManager->getHighestScore() . PHP_EOL);
             if ($this->isScoreAcceptable($scoreManager->getHighestScore())
                 || $iterationCount === $this->maximumIterations
             ) {

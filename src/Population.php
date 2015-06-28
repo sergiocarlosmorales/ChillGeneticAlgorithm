@@ -35,12 +35,17 @@ class Population
     }
 
     /**
+     * If the citizen does not exist, this will return null.
      * @param string $identifier
-     * @return Citizen
+     * @return Citizen|null
      */
     public function getCitizenByUniqueIdentifier($identifier)
     {
-        return $this->population[$identifier];
+        if (isset($this->population[$identifier])) {
+            return $this->population[$identifier];
+        }
+
+        return null;
     }
 
     /**

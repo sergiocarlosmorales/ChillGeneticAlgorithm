@@ -45,7 +45,6 @@ abstract class Citizen
      * We pass the mutation probability just as a reference as it might help
      * to the logic in this method to determine 'how much' to mutate.
      * @param float $mutationProbability
-     * @return Citizen
      */
     abstract function _mutate($mutationProbability);
 }
