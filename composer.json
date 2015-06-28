@@ -1,6 +1,15 @@
 {
   "name": "sergiocarlosmorales/chill-genetic-algorithm",
-  "description": "A PHP framework for genetic algorithms",
+  "description": "PHP framework for genetic algorithms. Plug-in your domain-specific logic and forget about the rest!.",
+  "keywords": ["genetic", "algorithm", "framework", "library"],
+  "homepage": "https://github.com/sergiocarlosmorales/ChillGeneticAlgorithm",
+  "license": "GPL3",
+  "authors": [
+    {
+      "name": "Sergio Carlos Morales Angeles",
+      "email": "carloschilazo@gmail.com"
+    }
+  ],
   "require": {
     "php": ">=5.5.0"
   },
