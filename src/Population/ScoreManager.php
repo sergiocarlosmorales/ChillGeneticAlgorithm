@@ -1,6 +1,8 @@
 <?php
 namespace ChillGeneticAlgorithm\Population;
 use ChillGeneticAlgorithm\Population;
+use ChillGeneticAlgorithm\Citizen\Evaluator;
+use ChillGeneticAlgorithm\Citizen;
 
 class ScoreManager
 {
@@ -8,11 +10,6 @@ class ScoreManager
      * @var Population
      */
     protected $population;
-
-    /**
-     * @var string
-     */
-    protected $citizenEvaluatorClassName;
 
     /**
      * Map: CitizenUniqueIdentifier => score
@@ -24,6 +21,11 @@ class ScoreManager
     protected $scoreBoard = [];
 
     /**
+     * @var Evaluator
+     */
+    protected $evaluator;
+
+    /**
      * @var int
      */
     protected $scoreBoardLastSortType;
@@ -32,21 +34,21 @@ class ScoreManager
     const WORST_PERFORMERS_FIRST_SCORE_BOARD_SORT_TYPE = 2;
     const UNSORTED_SCORE_BOARD_SORT_TYPE = 3;
 
-    public function __construct(Population $population, $evaluatorClassName)
+    /**
+     * @param Evaluator $evaluator
+     * @param Population $population
+     */
+    public function __construct(Population $population, Evaluator $evaluator)
     {
         $this->population = $population;
-        $this->citizenEvaluatorClassName = $evaluatorClassName;
+        $this->evaluator = $evaluator;
         $this->scoreBoardLastSortType = self::UNSORTED_SCORE_BOARD_SORT_TYPE;
     }
 
     public function evaluate()
     {
-        $evaluatorClassName = $this->citizenEvaluatorClassName;
-        /** @var Citizen_Evaluator $citizenEvaluator */
-        $citizenEvaluator = new $evaluatorClassName();
-
         foreach ($this->getCitizens() as $citizenUniqueIdentifier => $citizen) {
-            $this->scoreBoard[$citizenUniqueIdentifier] = $citizenEvaluator->getScore($citizen);
+            $this->scoreBoard[$citizenUniqueIdentifier] = $this->evaluator->getScore($citizen);
         }
     }
 

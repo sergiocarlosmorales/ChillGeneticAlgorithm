@@ -50,6 +50,7 @@ for ($i=0; $i<1000; $i++) {
 }
 
 $population = new \ChillGeneticAlgorithm\Population($citizens);
-$scoreManager = new \ChillGeneticAlgorithm\Population\ScoreManager($population, 'DigitsAddUpTo100');
+$evaluator = new DigitsAddUpTo100();
+$scoreManager = new \ChillGeneticAlgorithm\Population\ScoreManager($population, $evaluator);
 $solverEngine = new \ChillGeneticAlgorithm\SolverEngine($population, $scoreManager, 0, 500, 35, 1000);
 print_r($solverEngine->solve());
