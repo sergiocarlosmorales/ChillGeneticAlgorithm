@@ -9,7 +9,7 @@ You can either clone the repository in your project, or include it via composer:
 ```
     "require": {
         ...,
-        "composer require sergiocarlosmorales/chill-genetic-algorithm": "*"
+        "composer require sergiocarlosmorales/chill-genetic-algorithm": "1.0"
     }
 ```
 ## EXAMPLE
