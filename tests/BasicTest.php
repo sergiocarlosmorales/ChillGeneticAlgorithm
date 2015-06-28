@@ -7,7 +7,8 @@ class BasicTest extends PHPUnit_Framework_TestCase {
         $citizens = [];
 
         $population = new \ChillGeneticAlgorithm\Population($citizens);
-        $scoreManager = new \ChillGeneticAlgorithm\Population\ScoreManager($population, 'DigitsAddUpTo100');
+        $evaluator = new DigitsAddUpTo100();
+        $scoreManager = new \ChillGeneticAlgorithm\Population\ScoreManager($population, $evaluator);
         $solverEngine = new \ChillGeneticAlgorithm\SolverEngine($population, $scoreManager, 0, 500, 35, 1000);
         // Dummy test.
         $this->assertNotNull($solverEngine);
