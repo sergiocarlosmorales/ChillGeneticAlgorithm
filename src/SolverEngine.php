@@ -7,16 +7,6 @@ use ChillGeneticAlgorithm\Citizen;
 class SolverEngine
 {
     /**
-     * @var Population
-     */
-    protected $population;
-
-    /**
-     * @var Population_ScoreManager
-     */
-    protected $scoreManager;
-
-    /**
      * @var float
      */
     protected $acceptableErrorRate;
@@ -37,11 +27,21 @@ class SolverEngine
     protected $maximumIterations;
 
     /**
+     * @var Population
+     */
+    protected $population;
+
+    /**
+     * @var ScoreManager
+     */
+    protected $scoreManager;
+
+    /**
      * @param Population $population
      * @param ScoreManager $scoreManager
-     * @param float $acceptableErrorRate [0-100]
+     * @param float $acceptableErrorRate [0-100] Where 0 is requiring the perfect solution.
      * @param int $citizensToReplacePerGeneration
-     * @param float $mutationProbability [0-100]
+     * @param float $mutationProbability [0-100] The mutation probability for each new offspring.
      * @param int $maximumIterations
      */
     public function __construct(
@@ -61,6 +61,80 @@ class SolverEngine
     }
 
     /**
+     * @param Citizen[]|array $children
+     */
+    protected function addChildrenToPopulation(array $children)
+    {
+        foreach ($children as $child) {
+            $this->population->addCitizen($child);
+        }
+    }
+
+    /**
+     * @param Citizen $citizen
+     * @param Citizen[]|array $potentialMates
+     *
+     * @return Citizen
+     */
+    protected function getPartnerForMating(Citizen $citizen, array $potentialMates)
+    {
+        return $potentialMates[array_rand($potentialMates)]; // This could return the same partner as $citizen.
+    }
+
+    /**
+     * Return only the top performer. A single individual.
+     * @return Citizen
+     */
+    protected function getTopPerformer()
+    {
+        $topPerformers = $this->getTopPerformers(1);
+        return reset($topPerformers);
+    }
+
+    /**
+     * Get the top performers for this iteration.
+     * If you dont specify how many you want, it will return the same number
+     * as defined in the citizensCountToReplacePerGeneration.
+     *
+     * @param int|null $howMany
+     *
+     * @return Citizen[]|array
+     */
+    protected function getTopPerformers($howMany = null)
+    {
+        $topPerformers = [];
+        if ($howMany === null) {
+            $howMany = $this->citizensCountToReplacePerGeneration;
+        }
+        $topPerformerIdentifiers = $this->scoreManager->getTopPerformersUniqueIdentifiers($howMany);
+        foreach ($topPerformerIdentifiers as $identifier) {
+            $topPerformers[] = $this->population->getCitizenByUniqueIdentifier($identifier);
+        }
+
+        return $topPerformers;
+    }
+
+    /**
+     * @param float $score
+     * @return bool
+     */
+    protected function isScoreAcceptable($score)
+    {
+        return (100 - $score <= $this->acceptableErrorRate);
+    }
+
+    /**
+     * Should we mutate an individual? based on the mutationProbability.
+     * @return bool
+     */
+    protected function shouldMutate()
+    {
+        $randomNumber = ((float) mt_rand() / (float) mt_getrandmax()) * 100;
+        return ($randomNumber <= $this->mutationProbability);
+    }
+
+    /**
+     * Call this to actually start the algorithm.
      * @return Citizen
      */
     public function solve()
@@ -99,31 +173,6 @@ class SolverEngine
         return $this->getTopPerformer();
     }
 
-    /**
-     * @param float $score
-     * @return bool
-     */
-    protected function isScoreAcceptable($score)
-    {
-        return (100 - $score <= $this->acceptableErrorRate);
-    }
-
-    /**
-     * @return Citizen[]|array
-     */
-    protected function getTopPerformers()
-    {
-        $topPerformers = [];
-        $topPerformerIdentifiers = $this->scoreManager->getTopPerformersUniqueIdentifiers(
-            $this->citizensCountToReplacePerGeneration
-        );
-        foreach ($topPerformerIdentifiers as $identifier) {
-            $topPerformers[] = $this->population->getCitizenByUniqueIdentifier($identifier);
-        }
-
-        return $topPerformers;
-    }
-
     protected function removeWorstPerformersFromPopulation()
     {
         $worstPerformerIdentifiers = $this->scoreManager->getWorstPerformersUniqueIdentifiers(
@@ -132,41 +181,5 @@ class SolverEngine
         foreach ($worstPerformerIdentifiers as $identifier) {
             $this->population->removeCitizenByUniqueIdentifier($identifier);
         }
-    }
-
-    /**
-     * @param Citizen[]|array $children
-     */
-    protected function addChildrenToPopulation(array $children)
-    {
-        foreach ($children as $child) {
-            $this->population->addCitizen($child);
-        }
-    }
-
-    /**
-     * @return Citizen
-     */
-    protected function getTopPerformer()
-    {
-        $topPerformers = $this->getTopPerformers();
-        return reset($topPerformers);
-    }
-
-    /**
-     * @param Citizen $citizen
-     * @param Citizen[]|array $potentialMates
-     *
-     * @return Citizen
-     */
-    protected function getPartnerForMating(Citizen $citizen, array $potentialMates)
-    {
-        return $potentialMates[array_rand($potentialMates)]; // This could return the same partner as $citizen.
-    }
-
-    protected function shouldMutate()
-    {
-        $randomNumber = ((float) mt_rand() / (float) mt_getrandmax()) * 100;
-        return ($randomNumber <= $this->mutationProbability);
     }
 }

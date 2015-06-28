@@ -1,5 +1,6 @@
 <?php
 namespace ChillGeneticAlgorithm\Citizen;
+
 use ChillGeneticAlgorithm\Citizen;
 
 abstract class Evaluator
