@@ -4,7 +4,7 @@ PHP framework for Genetic Algorithms.
 
 Just plug-in your domain-specific logic and let this do the heavy lifting for you!!!
 ## INSTALLATION
-You can either clone the repository, or include it in your project via composer:
+You can either clone the repository in your project, or include it via composer:
 
 ```
     "require": {
